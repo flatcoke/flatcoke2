@@ -3,6 +3,21 @@ version: '3'
 services:
   flatcoke-client:
     build: .
-    image: flatcoke-client
-    ports:
-      - 3000:3000
+    expose:
+      - 3000
+    command:
+      sh -c 'yarn && yarn build && yarn start'
+    environment:
+      VIRTUAL_HOST: www.flatcoke.com
+      VIRTUAL_PORT: 3000
+      LETSENCRYPT_HOST: www.flatcoke.com
+      LETSENCRYPT_EMAIL: flatcoke89@gmail.com
+    container_name: flatcoke-client
+    restart: always
+    volumes:
+      - .:/www/client
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
