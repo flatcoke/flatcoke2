@@ -8,7 +8,10 @@ const handle = app.getRequestHandler()
 
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const FacebookStrategy = require('passport-facebook').Strategy // 이 부분 추가
+const FacebookStrategy = require('passport-facebook').Strategy
+const routes = require('./routes')
+
+const handler = routes.getRequestHandler(app)
 
 passport.use(
   new GoogleStrategy(
@@ -39,6 +42,7 @@ passport.use(
 app.prepare().then(() => {
   const server = express()
   server.use(passport.initialize())
+  server.use(handler)
 
   server.get(
     '/auth/google',
