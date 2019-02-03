@@ -7,10 +7,7 @@ export default class extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        Hello World {this.props.userAgent}
-      </div>
-    )
+    // eslint-disable-next-line react/destructuring-assignment
+    return <div>Hello World {this.props.userAgent}</div>
   }
 }
