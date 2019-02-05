@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames/bind'
 import styles from 'styles/styles.scss'
-import Layout from 'components/layout'
+import Layout from 'components/Layout'
 
 const cx = classNames.bind(styles)
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { getPosts } from 'actions/posts'
-import Layout from 'components/layout'
+import Layout from 'components/Layout'
 
 class Post extends React.Component {
   static async getInitialProps({ store, isServer }) {
