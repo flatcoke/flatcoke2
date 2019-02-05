@@ -14,10 +14,19 @@
     "import/newline-after-import": "error",
     "semi": ["error", "never"],
     "comma-dangle": ["error", "always-multiline"],
-    "jsx-a11y/anchor-is-valid": [ "error", {
-      "components": [ "Link" ],
-      "specialLink": [ "to" ]
-    }]
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["to"]
+      }
+    ],
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": ["actions/", "reducers", "styles/", "components/", "api"]
+      }
+    ]
   },
   "globals": {
     "window": true,
