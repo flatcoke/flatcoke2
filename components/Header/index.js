@@ -4,10 +4,11 @@ import Link from 'next/link'
 export default () => (
   <header>
     <nav>
-      <Link href="/">
-        <a>HOME</a>
-      </Link>
-      |
+      <h1>
+        <Link href="/">
+          <a>FLATCOKE</a>
+        </Link>
+      </h1>
       <Link href="blogs">
         <a>BLOG</a>
       </Link>

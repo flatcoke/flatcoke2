@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { getPosts } from 'actions/posts'
 import Layout from 'components/Layout'
+import PostList from 'components/Blog/PostList'
 
 class Post extends React.Component {
   static async getInitialProps({ store, isServer }) {
@@ -16,8 +17,9 @@ class Post extends React.Component {
     const { items } = this.props
     return (
       <Layout title="FLATCOKE BLOG">
-        {items.map(item => item.title)}
-        <div>blogs</div>
+        <div>
+          <PostList posts={items} />
+        </div>
       </Layout>
     )
   }
