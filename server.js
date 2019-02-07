@@ -9,9 +9,9 @@ const handle = app.getRequestHandler()
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
-const routes = require('./routes')
+// const routes = require('./routes')
 
-const handler = routes.getRequestHandler(app)
+// const handler = routes.getRequestHandler(app)
 
 passport.use(
   new GoogleStrategy(
@@ -42,7 +42,7 @@ passport.use(
 app.prepare().then(() => {
   const server = express()
   server.use(passport.initialize())
-  server.use(handler)
+  // server.use(handler)
 
   server.get(
     '/auth/google',
@@ -77,6 +77,9 @@ app.prepare().then(() => {
       res.redirect('/')
     }
   )
+  server.get('/blogs/:id', (req, res) => {
+    return app.render(req, res, '/blogs/id', { id: req.params.id })
+  })
 
   server.get('*', (req, res) => {
     return handle(req, res)

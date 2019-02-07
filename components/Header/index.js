@@ -9,7 +9,7 @@ export default () => (
           <a>FLATCOKE</a>
         </Link>
       </h1>
-      <Link href="blogs">
+      <Link href="/blogs">
         <a>BLOG</a>
       </Link>
       |
