@@ -6,6 +6,7 @@ const Dotenv = require('dotenv-webpack')
 const withSass = require('@zeit/next-sass')
 
 module.exports = withSass({
+  distDir: '../.next',
   cssModules: true,
   webpack: config => {
     config.plugins = config.plugins || [] // eslint-disable-line no-param-reassign
@@ -15,7 +16,7 @@ module.exports = withSass({
 
       // Read the .env file
       new Dotenv({
-        path: path.join(__dirname, '.env'),
+        path: path.join(__dirname, '../.env'),
         systemvars: true,
       }),
     ]

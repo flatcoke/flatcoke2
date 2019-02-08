@@ -1,10 +1,10 @@
 import express from 'express'
 import next from 'next'
 
+import APIRoute from 'routes'
 import passport from 'passport'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
-
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -40,7 +40,7 @@ passport.use(
 app.prepare().then(() => {
   const server = express()
   server.use(passport.initialize())
-  // server.use(handler)
+  server.use('/api', APIRoute)
 
   server.get(
     '/auth/google',
