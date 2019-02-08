@@ -1,18 +1,15 @@
-const express = require('express')
-const next = require('next')
+import express from 'express'
+import next from 'next'
+
+import passport from 'passport'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
+import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
+
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
+const app = next({ dir: './client', dev })
 const handle = app.getRequestHandler()
-
-const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const FacebookStrategy = require('passport-facebook').Strategy
-// const routes = require('./routes')
-
-// const handler = routes.getRequestHandler(app)
-console.log(process.env)
 
 passport.use(
   new GoogleStrategy(

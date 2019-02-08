@@ -11,6 +11,7 @@ export default () => (
     <div className={cx('example')}>
       <Button color="primary">This is a button</Button>
       <ul>
+        <li>TaeminKim</li>
         <li>This is FLATCOKE page</li>
         <li>This is personal blog</li>
       </ul>
