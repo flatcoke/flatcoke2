@@ -12,6 +12,7 @@ const FacebookStrategy = require('passport-facebook').Strategy
 // const routes = require('./routes')
 
 // const handler = routes.getRequestHandler(app)
+console.log(process.env)
 
 passport.use(
   new GoogleStrategy(
