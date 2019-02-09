@@ -29,7 +29,8 @@
           "actions": "./client/actions",
           "reducers": "./client/reducers",
           "api": "./client/api",
-          "routes": "./server/routes"
+          "routes": "./server/routes",
+          "models": "./server/models"
         }
       }
     ]

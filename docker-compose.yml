@@ -1,23 +1,24 @@
 version: '3'
 
-services:
-  flatcoke-client:
-    build: .
-    expose:
-      - 3000
-    command:
-      sh -c 'yarn && yarn build && yarn start'
-    environment:
-      VIRTUAL_HOST: www.flatcoke.com
-      VIRTUAL_PORT: 3000
-      LETSENCRYPT_HOST: www.flatcoke.com
-      LETSENCRYPT_EMAIL: flatcoke89@gmail.com
-    container_name: flatcoke-client
+services: 
+  db:
+    image: mariadb
     restart: always
     volumes:
-      - .:/www/client
+      - ./dbdata:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: qwer1234
+      MYSQL_USER: cola
+      MYSQL_PASSWORD: qwer1234
+      MYSQL_DATABASE: flatcoke
+    ports:
+      - 3306:3306
 
-networks:
-  default:
-    external:
-      name: nginx-proxy
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  dbdata:

@@ -24,9 +24,11 @@
     "import/no-unresolved": [
       "error",
       {
-        "ignore": ["actions", "reducers", "styles", "components", "api", "routes"]
+        "ignore": ["actions", "reducers", "styles", "components", "api", "routes", "models"]
       }
-    ]
+    ],
+    "func-names": 0,
+    "no-param-reassign": 0
   },
   "globals": {
     "window": true,
