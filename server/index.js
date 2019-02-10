@@ -5,6 +5,7 @@ import APIRoute from 'routes'
 import passport from 'passport'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
+import jwt from 'express-jwt'
 import db from 'models'
 
 const { User } = db.models
@@ -22,13 +23,17 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       const { provider, id, displayName, emails } = profile
-      const user = await User.findOrCreateByOAuth({
-        provider,
-        email: emails[0].value,
-        username: displayName.split(' ').join(''),
-        uid: id,
-      })
-      return done(null, user)
+      try {
+        const user = await User.findOrCreateByOAuth({
+          provider,
+          email: emails[0].value,
+          username: displayName.split(' ').join(''),
+          uid: id,
+        })
+        return done(null, user.toJSON(), { token: user.toJWT() })
+      } catch (e) {
+        console.log(e)
+      }
     }
   )
 )
@@ -49,6 +54,12 @@ passport.use(
 app.prepare().then(() => {
   const server = express()
   server.use(passport.initialize())
+  server.use(
+    jwt({
+      secret: process.env.SECRET,
+      credentialsRequired: false,
+    })
+  )
   server.use('/api', APIRoute)
 
   server.get(
@@ -64,8 +75,8 @@ app.prepare().then(() => {
       session: false,
     }),
     (req, res) => {
-      // set cookie jwt token
-      res.redirect('/')
+      res.cookie('JWT', req.authInfo.token)
+      return handle(req, res)
     }
   )
 

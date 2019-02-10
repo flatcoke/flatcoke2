@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 export default (Sequelize, DataTypes) => {
   const User = Sequelize.define(
@@ -65,6 +66,9 @@ export default (Sequelize, DataTypes) => {
     },
     {
       tableName: 'users',
+      defaultScope: {
+        attributes: ['id', 'username', 'email', 'createdAt', 'updatedAt'],
+      },
       instanceMethods: {
         authenticate: function authenticate(password) {
           return bcrypt.compareSync(password, this.passwordDigest)
@@ -128,7 +132,12 @@ export default (Sequelize, DataTypes) => {
   }
 
   User.prototype.authenticate = function(password) {
-    return bcrypt.compareSync(password, this.passwordDigest)
+    return bcrypt.compareSync(password, this.password)
+  }
+
+  User.prototype.toJWT = function() {
+    const { id, username, email, isAdmin } = this
+    return jwt.sign({ id, username, email, isAdmin }, process.env.SECRET)
   }
 
   return User
