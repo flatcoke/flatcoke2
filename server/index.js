@@ -5,7 +5,9 @@ import APIRoute from 'routes'
 import passport from 'passport'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
+import db from 'models'
 
+const { User } = db.models
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dir: './client', dev })
@@ -18,8 +20,15 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: `${process.env.CLIENT_URL}/auth/google/callback`,
     },
-    (accessToken, refreshToken, profile, done) => {
-      return done(null, profile)
+    async (accessToken, refreshToken, profile, done) => {
+      const { provider, id, displayName, emails } = profile
+      const user = await User.findOrCreateByOAuth({
+        provider,
+        email: emails[0].value,
+        username: displayName.split(' ').join(''),
+        uid: id,
+      })
+      return done(null, user)
     }
   )
 )
@@ -51,11 +60,13 @@ app.prepare().then(() => {
   server.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-      successRedirect: '/',
       failureRedirect: '/login',
       session: false,
     }),
-    () => {}
+    (req, res) => {
+      // set cookie jwt token
+      res.redirect('/')
+    }
   )
 
   server.get(

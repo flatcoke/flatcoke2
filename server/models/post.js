@@ -2,6 +2,11 @@ export default (Sequelize, DataTypes) => {
   const Post = Sequelize.define(
     'Post',
     {
+      id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       title: {
         type: DataTypes.STRING(50),
         allowNull: false,

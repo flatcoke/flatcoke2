@@ -4,6 +4,11 @@ export default (Sequelize, DataTypes) => {
   const User = Sequelize.define(
     'User',
     {
+      id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       username: {
         type: DataTypes.STRING(30),
         unique: {
@@ -28,17 +33,20 @@ export default (Sequelize, DataTypes) => {
       },
       provider: {
         type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
       },
       uid: {
         type: DataTypes.STRING,
-      },
-      passwordDigest: {
-        field: 'password',
-        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
       },
       password: {
-        field: 'passwordVirtual',
-        type: DataTypes.VIRTUAL,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
@@ -46,6 +54,11 @@ export default (Sequelize, DataTypes) => {
       },
       passwordConfirmation: {
         type: DataTypes.VIRTUAL,
+      },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
       },
       createdAt: { field: 'created_at', type: DataTypes.DATE },
       updatedAt: { field: 'updated_at', type: DataTypes.DATE },
@@ -71,6 +84,8 @@ export default (Sequelize, DataTypes) => {
   User.beforeValidate((user, options) => {})
 
   User.beforeCreate((user, option) => {
+    console.log(user)
+    console.log(user.email)
     user.email = user.email.toLowerCase()
     if (!user.password)
       user.passwordDigest = bcrypt.hashSync(
@@ -79,8 +94,18 @@ export default (Sequelize, DataTypes) => {
       )
   })
 
-  User.createByOAuth = ({provider, email, password, id}) => {
-    User.create({ provider, email, password, id})
+  User.findOrCreateByOAuth = async ({ provider, email, username, uid }) => {
+    const user = await User.findOne({ where: { provider, uid } })
+    if (user) return user
+
+    const hashedPassword = bcrypt.genSaltSync(10)
+    return User.create({
+      provider,
+      email,
+      username,
+      uid,
+      password: hashedPassword,
+    })
   }
 
   User.findAndAuthenticate = async payload => {
