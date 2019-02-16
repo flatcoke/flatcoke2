@@ -24,7 +24,7 @@
     "import/no-unresolved": [
       "error",
       {
-        "ignore": ["actions", "reducers", "styles", "components", "api", "routes", "models"]
+        "ignore": ["actions", "reducers", "styles", "components", "api", "routes", "models", "pages"]
       }
     ],
     "func-names": 0,
