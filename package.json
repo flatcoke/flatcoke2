@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./server --exec babel-node --presets @babel/preset-env --watch server",
     "dev:debug": "NODE_ENV=development nodemon --inspect=5858 ./server --exec babel-node --presets @babel/preset-env --watch server",
-    "test": "NODE_ENV=test mocha --require ignore-styles",
+    "test": "NODE_ENV=test mocha --require ignore-styles test/*/*.js",
+    "db": "sequelize",
     "build": "yarn build:next && yarn build:server",
     "build:next": "next build client",
     "build:server": "NODE_ENV=production babel server --out-dir .next/server/dist",
@@ -67,6 +68,7 @@
     "nodemon": "^1.18.9",
     "prettier": "^1.16.3",
     "pretty-quick": "^1.10.0",
+    "sequelize-cli": "^5.4.0",
     "should": "^13.2.3"
   }
 }
