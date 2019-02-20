@@ -19,6 +19,10 @@ module.exports = {
     dialect: 'mysql',
     operatorsAliases: Sequelize.Op,
   },
+  test: {
+    dialect: 'sqlite',
+    storage: ':memory:',
+  },
   session: {
     secret: process.env.PRODUCTION_SECRET || 'placeholdersecret',
     operatorsAliases: Sequelize.Op,
