@@ -45,8 +45,19 @@ passport.use(
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: `${process.env.CLIENT_URL}/auth/facebook/callback`,
     },
-    (accessToken, refreshToken, profile, cb) => {
-      return cb(null, profile)
+    async (accessToken, refreshToken, profile, cb) => {
+      const { provider, id, displayName, emails } = profile
+      try {
+        const user = await User.findOrCreateByOAuth({
+          provider,
+          email: emails[0].value,
+          username: displayName,
+          uid: id,
+        })
+        return cb(null, user.toJSON(), { token: user.toJWT() })
+      } catch (e) {
+        console.log(e)
+      }
     }
   )
 )
@@ -94,7 +105,8 @@ app.prepare().then(() => {
       session: false,
     }),
     (req, res) => {
-      res.redirect('/')
+      res.cookie('JWT', req.authInfo.token)
+      return handle(req, res)
     }
   )
   server.get('/blogs/:id', (req, res) => {
