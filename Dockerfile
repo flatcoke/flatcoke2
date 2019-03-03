@@ -11,4 +11,4 @@ COPY . /www/client
 
 RUN yarn && yarn build
 
-CMD [ "yarn", "start" ]
+CMD ["yarn", "start"]
