@@ -15,6 +15,7 @@ class Post extends React.Component {
 
   render() {
     const { items } = this.props
+
     return (
       <Layout title="FLATCOKE BLOG">
         <div>
@@ -28,8 +29,8 @@ class Post extends React.Component {
 const mapStateToProps = state => {
   return {
     items: state.posts.items,
-    next: state.posts.next,
-    previous: state.posts.previous,
+    // next: state.posts.next,
+    // previous: state.posts.previous,
   }
 }
 
