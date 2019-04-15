@@ -44,6 +44,7 @@ passport.use(
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: `${process.env.CLIENT_URL}/auth/facebook/callback`,
+      profileFields: ['id', 'displayName', 'email'],
     },
     async (accessToken, refreshToken, profile, cb) => {
       const { provider, id, displayName, emails } = profile
@@ -51,12 +52,12 @@ passport.use(
         const user = await User.findOrCreateByOAuth({
           provider,
           email: emails[0].value,
-          username: displayName,
+          username: displayName.split(' ').join(''),
           uid: id,
         })
         return cb(null, user.toJSON(), { token: user.toJWT() })
       } catch (e) {
-        console.log(e)
+        return cb(null, null, {})
       }
     }
   )
@@ -100,7 +101,6 @@ app.prepare().then(() => {
   server.get(
     '/auth/facebook/callback',
     passport.authenticate('facebook', {
-      successRedirect: '/',
       failureRedirect: '/login',
       session: false,
     }),
