@@ -4,4 +4,6 @@ export const list = () => {
   return get('/api/v1/posts/')
 }
 
-export const show = id => {}
+export const show = id => {
+  return get(`/api/v1/posts/${id}`)
+}

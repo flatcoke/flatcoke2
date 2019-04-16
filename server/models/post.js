@@ -21,6 +21,9 @@ export default (Sequelize, DataTypes) => {
     },
     {
       tableName: 'posts',
+      defaultScope: {
+        limit: 10,
+      },
     }
   )
 

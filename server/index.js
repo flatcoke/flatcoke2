@@ -109,9 +109,6 @@ app.prepare().then(() => {
       return handle(req, res)
     }
   )
-  server.get('/blogs/:id', (req, res) => {
-    return app.render(req, res, '/blogs/id', { id: req.params.id })
-  })
 
   server.get('*', (req, res) => {
     return handle(req, res)

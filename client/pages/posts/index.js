@@ -6,7 +6,7 @@ import { getPosts } from 'actions/posts'
 import Layout from 'components/Layout'
 import PostList from 'components/Blog/PostList'
 
-class Post extends React.Component {
+class PostListPage extends React.Component {
   static async getInitialProps({ store, isServer }) {
     await store.dispatch(getPosts())
 
@@ -41,4 +41,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Post)
+)(PostListPage)
